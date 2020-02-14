@@ -16,7 +16,7 @@ class ResultOverview extends React.Component {
     return (
       <div>
         {Object.keys(result).map((user, idx) => (
-          <div>
+          <div key={user}>
             {user} : {NumWithSign(result[user])}
           </div>
         ))}
