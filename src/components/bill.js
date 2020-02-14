@@ -48,23 +48,25 @@ class BillTable extends React.Component {
   render() {
     const users = this.props.users
     return (
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Payer</th>
-            <th>Amount</th>
-            {users.map((user, idx) => (
-              <th key={user}>{user}</th>
+      <div className="table-responsive">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Payer</th>
+              <th>Amount</th>
+              {users.map((user, idx) => (
+                <th key={user}>{user}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {this.props.bills.map((bill, idx) => (
+              // TODO : fix key
+              <BillRow key={idx} users={users} bill={bill}></BillRow>
             ))}
-          </tr>
-        </thead>
-        <tbody>
-          {this.props.bills.map((bill, idx) => (
-            // TODO : fix key
-            <BillRow key={idx} users={users} bill={bill}></BillRow>
-          ))}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     )
   }
 }

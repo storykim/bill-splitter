@@ -21,26 +21,38 @@ class User extends React.Component {
 }
 
 class UserInput extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  handleClick = e => {
+    e.preventDefault()
+    this.props.onUserSubmit(e.target.nameInput.value)
+    e.target.nameInput.value = ""
+  }
   render() {
     return (
       <div>
         <form
           style={{ display: "inline-block" }}
           className="form-inline col-xs-1"
+          onSubmit={this.handleClick}
         >
           <input
             placeholder="Name"
             className="form-control form-control-sm col-6"
             type="text"
             style={{ display: "inline-block" }}
+            name="nameInput"
           />
-          <button
+          <input
             style={{ display: "inline-block" }}
             type="submit"
             className="btn btn-primary btn-sm"
-          >
-            +
-          </button>
+            value="+"
+          />
         </form>
       </div>
     )
@@ -67,7 +79,7 @@ class UserPanel extends React.Component {
         <div className="container">
           <div className="row">
             <UserList users={this.props.users} />
-            <UserInput />
+            <UserInput onUserSubmit={this.props.onUserSubmit} />
           </div>
         </div>
       </fieldset>

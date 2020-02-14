@@ -16,7 +16,21 @@ class App extends React.Component {
       ],
     }
 
+    this.onUserSubmit = this.onUserSubmit.bind(this)
     this.calculateResult = this.calculateResult.bind(this)
+  }
+
+  onUserSubmit(name) {
+    if (name === "" || this.state.users.includes(name)) {
+      // TODO : show warning message
+      return
+    }
+
+    this.setState((prevState, props) => {
+      return {
+        users: [...prevState.users, name],
+      }
+    })
   }
 
   calculateResult() {
@@ -45,7 +59,7 @@ class App extends React.Component {
     return (
       <div style={{ maxWidth: "600px", margin: "3rem auto" }}>
         <IntroPanel />
-        <UserPanel users={this.state.users} />
+        <UserPanel users={this.state.users} onUserSubmit={this.onUserSubmit} />
         <BillPanel bills={this.state.bills} users={this.state.users} />
         <br />
         <ResultPanel result={this.calculateResult()} />
