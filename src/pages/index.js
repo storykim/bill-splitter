@@ -7,26 +7,27 @@ import ResultPanel from "../components/result"
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { scale: "c", temperature: "0" }
-
-    // TODO : move to state
-    this.users = ["Donghwa", "Emile"]
-    this.tempBills = [
-      { payer: "Donghwa", amount: 10, people: ["Donghwa", "Emile"] },
-      { payer: "Emile", amount: 20, people: ["Donghwa"] },
-      { payer: "", amount: 100, people: ["Donghwa", "Emile"] },
-    ]
+    this.state = {
+      users: ["Donghwa", "Emile"],
+      bills: [
+        { payer: "Donghwa", amount: 10, people: ["Donghwa", "Emile"] },
+        { payer: "Emile", amount: 20, people: ["Donghwa"] },
+        { payer: "", amount: 100, people: ["Donghwa", "Emile"] },
+      ],
+    }
 
     this.calculateResult = this.calculateResult.bind(this)
   }
 
   calculateResult() {
+    const users = this.state.users
+    const bills = this.state.bills
     let userToResultMap = {}
-    this.users.forEach(user => {
+    users.forEach(user => {
       userToResultMap[user] = 0
     })
 
-    this.tempBills.forEach(bill => {
+    bills.forEach(bill => {
       if (bill.payer === "" || bill.people.length === 0) {
         return
       }
@@ -44,10 +45,10 @@ class App extends React.Component {
     return (
       <div style={{ maxWidth: "600px", margin: "3rem auto" }}>
         <IntroPanel />
-        <UserPanel users={this.users} />
-        <BillPanel bills={this.tempBills} users={this.users} />
+        <UserPanel users={this.state.users} />
+        <BillPanel bills={this.state.bills} users={this.state.users} />
         <br />
-        <ResultPanel result={this.calculateResult()}/>
+        <ResultPanel result={this.calculateResult()} />
       </div>
     )
   }
