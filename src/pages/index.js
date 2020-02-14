@@ -7,18 +7,38 @@ import ResultPanel from "../components/result"
 class App extends React.Component {
   constructor(props) {
     super(props)
+    // TODO : set to 1
+    this.nextId = 4;
     this.state = {
       users: ["Donghwa", "Emile"],
       bills: [
-        { payer: "Donghwa", amount: 10, people: ["Donghwa", "Emile"] },
-        { payer: "Emile", amount: 20, people: ["Donghwa"] },
-        { payer: "", amount: 100, people: ["Donghwa", "Emile"] },
+        {id:1, payer: "Donghwa", amount: 10, people: ["Donghwa", "Emile"] },
+        {id:2, payer: "Emile", amount: 20, people: ["Donghwa"] },
+        {id:3, payer: "", amount: 100, people: ["Donghwa", "Emile"] },
       ],
     }
 
+    this.onAddBill = this.onAddBill.bind(this)
     this.onUserSubmit = this.onUserSubmit.bind(this)
     this.onUserDelete = this.onUserDelete.bind(this)
     this.calculateResult = this.calculateResult.bind(this)
+  }
+
+  onAddBill(e) {
+    e.preventDefault()
+    let newBill = {
+      id: this.nextId,
+      payer: '',
+      amount: 0,
+      people: [],
+    }
+    this.nextId += 1
+
+    this.setState(prevState => {
+      return {
+        bills: [...prevState.bills, newBill]
+      }
+    })
   }
 
   onUserSubmit(name) {
@@ -42,12 +62,12 @@ class App extends React.Component {
 
     this.setState((prevState, props) => {
       // Delete user from users
-      const newUsers = prevState.users.filter(el => el != name)
+      const newUsers = prevState.users.filter(el => el !== name)
       // Delete user from bills
       const newBills = prevState.bills.map(bill => {
         bill.payer = bill.payer === name ? "" : bill.payer
         if (bill.people.includes(name)) {
-          bill.people = bill.people.filter(el => el != name)
+          bill.people = bill.people.filter(el => el !== name)
         }
 
         return bill
@@ -91,7 +111,7 @@ class App extends React.Component {
           onUserSubmit={this.onUserSubmit}
           onUserDelete={this.onUserDelete}
         />
-        <BillPanel bills={this.state.bills} users={this.state.users} />
+        <BillPanel bills={this.state.bills} users={this.state.users} onAddBill={this.onAddBill}/>
         <br />
         <ResultPanel result={this.calculateResult()} />
       </div>

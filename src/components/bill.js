@@ -85,7 +85,7 @@ class BillPanel extends React.Component {
           </div>
           <div className="row">
             <div className="text-center col">
-              <button type="button" className="btn btn-success">
+              <button type="button" className="btn btn-success" onClick={this.props.onAddBill}>
                 Add Bill
               </button>
             </div>
