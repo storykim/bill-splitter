@@ -1,6 +1,17 @@
 import React from "react"
 
 class User extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.handleDelete = this.handleDelete.bind(this)
+  }
+
+  handleDelete = e => {
+    e.preventDefault()
+    this.props.onUserDelete(this.props.name)
+  }
+
   render() {
     return (
       <span
@@ -14,7 +25,9 @@ class User extends React.Component {
         >
           {this.props.name}
         </div>
-        <a type="button">&times;</a>
+        <button type="button" onClick={this.handleDelete}>
+          &times;
+        </button>
       </span>
     )
   }
@@ -64,7 +77,11 @@ class UserList extends React.Component {
     return (
       <div>
         {this.props.users.map((user, idx) => (
-          <User key={user} name={user}></User>
+          <User
+            key={user}
+            name={user}
+            onUserDelete={this.props.onUserDelete}
+          ></User>
         ))}
       </div>
     )
@@ -78,7 +95,10 @@ class UserPanel extends React.Component {
         <legend className="w-auto">Users</legend>
         <div className="container">
           <div className="row">
-            <UserList users={this.props.users} />
+            <UserList
+              users={this.props.users}
+              onUserDelete={this.props.onUserDelete}
+            />
             <UserInput onUserSubmit={this.props.onUserSubmit} />
           </div>
         </div>

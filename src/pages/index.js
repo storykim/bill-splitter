@@ -17,6 +17,7 @@ class App extends React.Component {
     }
 
     this.onUserSubmit = this.onUserSubmit.bind(this)
+    this.onUserDelete = this.onUserDelete.bind(this)
     this.calculateResult = this.calculateResult.bind(this)
   }
 
@@ -29,6 +30,32 @@ class App extends React.Component {
     this.setState((prevState, props) => {
       return {
         users: [...prevState.users, name],
+      }
+    })
+  }
+
+  onUserDelete(name) {
+    if (!this.state.users.includes(name)) {
+      console.log("INVALID delete! Username : ", name)
+      return
+    }
+
+    this.setState((prevState, props) => {
+      // Delete user from users
+      const newUsers = prevState.users.filter(el => el != name)
+      // Delete user from bills
+      const newBills = prevState.bills.map(bill => {
+        bill.payer = bill.payer === name ? "" : bill.payer
+        if (bill.people.includes(name)) {
+          bill.people = bill.people.filter(el => el != name)
+        }
+
+        return bill
+      })
+
+      return {
+        users: newUsers,
+        bills: newBills,
       }
     })
   }
@@ -59,7 +86,11 @@ class App extends React.Component {
     return (
       <div style={{ maxWidth: "600px", margin: "3rem auto" }}>
         <IntroPanel />
-        <UserPanel users={this.state.users} onUserSubmit={this.onUserSubmit} />
+        <UserPanel
+          users={this.state.users}
+          onUserSubmit={this.onUserSubmit}
+          onUserDelete={this.onUserDelete}
+        />
         <BillPanel bills={this.state.bills} users={this.state.users} />
         <br />
         <ResultPanel result={this.calculateResult()} />
