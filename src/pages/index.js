@@ -8,17 +8,18 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     // TODO : set to 1
-    this.nextId = 4;
+    this.nextId = 4
     this.state = {
       users: ["Donghwa", "Emile"],
       bills: [
-        {id:1, payer: "Donghwa", amount: 10, people: ["Donghwa", "Emile"] },
-        {id:2, payer: "Emile", amount: 20, people: ["Donghwa"] },
-        {id:3, payer: "", amount: 100, people: ["Donghwa", "Emile"] },
+        { id: 1, payer: "Donghwa", amount: 10, people: ["Donghwa", "Emile"] },
+        { id: 2, payer: "Emile", amount: 20, people: ["Donghwa"] },
+        { id: 3, payer: "", amount: 100, people: ["Donghwa", "Emile"] },
       ],
     }
 
     this.onAddBill = this.onAddBill.bind(this)
+    this.onBillChange = this.onBillChange.bind(this)
     this.onUserSubmit = this.onUserSubmit.bind(this)
     this.onUserDelete = this.onUserDelete.bind(this)
     this.calculateResult = this.calculateResult.bind(this)
@@ -28,7 +29,7 @@ class App extends React.Component {
     e.preventDefault()
     let newBill = {
       id: this.nextId,
-      payer: '',
+      payer: "",
       amount: 0,
       people: [],
     }
@@ -36,7 +37,20 @@ class App extends React.Component {
 
     this.setState(prevState => {
       return {
-        bills: [...prevState.bills, newBill]
+        bills: [...prevState.bills, newBill],
+      }
+    })
+  }
+
+  onBillChange(id, newBill) {
+    this.setState(prevState => {
+      return {
+        bills: prevState.bills.map(bill => {
+          if (bill.id === id) {
+            return newBill
+          }
+          return bill
+        }),
       }
     })
   }
@@ -111,7 +125,12 @@ class App extends React.Component {
           onUserSubmit={this.onUserSubmit}
           onUserDelete={this.onUserDelete}
         />
-        <BillPanel bills={this.state.bills} users={this.state.users} onAddBill={this.onAddBill}/>
+        <BillPanel
+          bills={this.state.bills}
+          users={this.state.users}
+          onAddBill={this.onAddBill}
+          onBillChange={this.onBillChange}
+        />
         <br />
         <ResultPanel result={this.calculateResult()} />
       </div>

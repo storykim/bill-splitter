@@ -5,6 +5,31 @@ class BillRow extends React.Component {
         users
         bill ( payer, amount, person )
     }*/
+  constructor(props) {
+    super(props)
+    this.onInputChange = this.onInputChange.bind(this)
+  }
+
+  onInputChange = e => {
+    const target = e.target
+    const newBill = Object.assign({}, this.props.bill)
+    if (target.name === "payer") {
+      newBill.payer = target.value
+    } else if (target.name === "amount") {
+      newBill.amount = parseFloat(target.value)
+    } else {
+      const user = target.name.substring(6)
+      if (target.checked) {
+        // TODO : consider changing the data structure of bill.people to set
+        if (!newBill.people.includes(user)) {
+          newBill.people = [...newBill.people, user]
+        }
+      } else {
+        newBill.people = newBill.people.filter(el => el !== user)
+      }
+    }
+    this.props.onBillChange(newBill.id, newBill)
+  }
   render() {
     const users = this.props.users
     const bill = this.props.bill
@@ -15,6 +40,8 @@ class BillRow extends React.Component {
             style={{ width: "10ch" }}
             value={bill.payer}
             className="form-control"
+            name="payer"
+            onChange={this.onInputChange}
           >
             <option></option>
             {users.map((user, idx) => (
@@ -23,15 +50,22 @@ class BillRow extends React.Component {
           </select>
         </td>
         <td className="col-amt">
-          <input style={{ width: "7ch" }} value={bill.amount} />
+          <input
+            style={{ width: "7ch" }}
+            value={bill.amount}
+            name="amount"
+            type="number"
+            onChange={this.onInputChange}
+          />
         </td>
         {users.map((user, idx) => (
           <td key={user}>
             <input
               type="checkbox"
-              name={user}
+              name={"check-" + user}
               value=""
               checked={bill.people.includes(user)}
+              onChange={this.onInputChange}
             />
           </td>
         ))}
@@ -41,10 +75,6 @@ class BillRow extends React.Component {
 }
 
 class BillTable extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     const users = this.props.users
     return (
@@ -62,7 +92,12 @@ class BillTable extends React.Component {
           <tbody>
             {this.props.bills.map((bill, idx) => (
               // TODO : fix key
-              <BillRow key={idx} users={users} bill={bill}></BillRow>
+              <BillRow
+                key={idx}
+                users={users}
+                bill={bill}
+                onBillChange={this.props.onBillChange}
+              ></BillRow>
             ))}
           </tbody>
         </table>
@@ -81,11 +116,16 @@ class BillPanel extends React.Component {
             <BillTable
               bills={this.props.bills}
               users={this.props.users}
+              onBillChange={this.props.onBillChange}
             ></BillTable>
           </div>
           <div className="row">
             <div className="text-center col">
-              <button type="button" className="btn btn-success" onClick={this.props.onAddBill}>
+              <button
+                type="button"
+                className="btn btn-success"
+                onClick={this.props.onAddBill}
+              >
                 Add Bill
               </button>
             </div>
