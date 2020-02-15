@@ -75,7 +75,7 @@ class BillRow extends React.Component {
         </td>
         <td className="col-amt">
           <input
-            style={{ width: "7ch" }}
+            style={{ width: "7ch", textAlign: "right" }}
             value={bill.amount}
             name="amount"
             type="text"
