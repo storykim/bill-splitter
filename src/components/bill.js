@@ -16,7 +16,8 @@ class BillRow extends React.Component {
     if (target.name === "payer") {
       newBill.payer = target.value
     } else if (target.name === "amount") {
-      newBill.amount = parseFloat(target.value)
+      const amount = parseFloat(target.value)
+      newBill.amount = isNaN(amount) ? 0 : amount
     } else {
       const user = target.name.substring(6)
       if (target.checked) {
