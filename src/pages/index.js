@@ -3,6 +3,7 @@ import IntroPanel from "../components/intro"
 import UserPanel from "../components/user"
 import BillPanel from "../components/bill"
 import ResultPanel from "../components/result"
+import { Helmet } from "react-helmet"
 
 class App extends React.Component {
   constructor(props) {
@@ -128,22 +129,27 @@ class App extends React.Component {
 
   render() {
     return (
-      <div style={{ maxWidth: "960px", margin: "3rem auto" }}>
-        <IntroPanel />
-        <UserPanel
-          users={this.state.users}
-          onUserSubmit={this.onUserSubmit}
-          onUserDelete={this.onUserDelete}
-        />
-        <BillPanel
-          bills={this.state.bills}
-          users={this.state.users}
-          onAddBill={this.onAddBill}
-          onBillChange={this.onBillChange}
-          onBillDelete={this.onBillDelete}
-        />
-        <br />
-        <ResultPanel result={this.calculateResult()} />
+      <div className="application">
+        <Helmet>
+          <title>Bill Splitter</title>
+        </Helmet>
+        <div style={{ maxWidth: "960px", margin: "3rem auto" }}>
+          <IntroPanel />
+          <UserPanel
+            users={this.state.users}
+            onUserSubmit={this.onUserSubmit}
+            onUserDelete={this.onUserDelete}
+          />
+          <BillPanel
+            bills={this.state.bills}
+            users={this.state.users}
+            onAddBill={this.onAddBill}
+            onBillChange={this.onBillChange}
+            onBillDelete={this.onBillDelete}
+          />
+          <br />
+          <ResultPanel result={this.calculateResult()} />
+        </div>
       </div>
     )
   }
