@@ -12,9 +12,9 @@ class App extends React.Component {
     this.state = {
       users: ["Donghwa", "Emile"],
       bills: [
-        { id: 1, payer: "Donghwa", amount: 10, people: ["Donghwa", "Emile"] },
-        { id: 2, payer: "Emile", amount: 20, people: ["Donghwa"] },
-        { id: 3, payer: "", amount: 100, people: ["Donghwa", "Emile"] },
+        { id: 1, payer: "Donghwa", amount: "10", people: ["Donghwa", "Emile"] },
+        { id: 2, payer: "Emile", amount: "20", people: ["Donghwa"] },
+        { id: 3, payer: "", amount: "100", people: ["Donghwa", "Emile"] },
       ],
     }
 
@@ -30,7 +30,7 @@ class App extends React.Component {
     let newBill = {
       id: this.nextId,
       payer: "",
-      amount: 0,
+      amount: '',
       people: [],
     }
     this.nextId += 1
@@ -103,13 +103,14 @@ class App extends React.Component {
     })
 
     bills.forEach(bill => {
-      if (bill.payer === "" || bill.people.length === 0) {
+      const amount = parseFloat(bill.amount)
+      if (bill.payer === "" || bill.people.length === 0 || isNaN(amount)) {
         return
       }
 
-      userToResultMap[bill.payer] += bill.amount
+      userToResultMap[bill.payer] += amount
       bill.people.forEach(person => {
-        userToResultMap[person] -= bill.amount / bill.people.length
+        userToResultMap[person] -= amount / bill.people.length
       })
     })
 

@@ -16,8 +16,17 @@ class BillRow extends React.Component {
     if (target.name === "payer") {
       newBill.payer = target.value
     } else if (target.name === "amount") {
-      const amount = parseFloat(target.value)
-      newBill.amount = isNaN(amount) ? 0 : amount
+      if (target.value === "") {
+        newBill.amount = ""
+      } else {
+        const amount = parseFloat(target.value)
+        if (isNaN(amount)) {
+          return
+        }
+
+        // Convert value again to remove leading zero
+        newBill.amount = String(amount)
+      }
     } else {
       const user = target.name.substring(6)
       if (target.checked) {
@@ -55,7 +64,7 @@ class BillRow extends React.Component {
             style={{ width: "7ch" }}
             value={bill.amount}
             name="amount"
-            type="number"
+            type="text"
             onChange={this.onInputChange}
           />
         </td>
