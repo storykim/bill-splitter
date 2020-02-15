@@ -60,12 +60,13 @@ class BillRow extends React.Component {
     const isCheckedAll = bill.people.length === users.length
     return (
       <tr>
-        <td className="col-payer">
+        <td className="col-payer" style={{width:"9ch"}}>
           <select
             value={bill.payer}
             className="form-control"
             name="payer"
             onChange={this.onInputChange}
+            style={{ width: "9ch" }}
           >
             <option></option>
             {users.map((user, idx) => (
@@ -124,7 +125,13 @@ class BillTable extends React.Component {
               <th style={{ width: "10ch" }}>Payer</th>
               <th style={{ width: "10ch" }}>Amount</th>
               {users.map((user, idx) => (
-                <th key={user} className="text-center" style={{width:"8ch", maxWidth:"8ch", overflowX:"hidden"}}>{user}</th>
+                <th
+                  key={user}
+                  className="text-center"
+                  style={{ width: "8ch", maxWidth: "8ch", overflowX: "hidden" }}
+                >
+                  {user}
+                </th>
               ))}
               <th style={{ width: "11ch" }}></th>
               <th></th>
