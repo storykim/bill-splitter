@@ -101,9 +101,8 @@ class BillTable extends React.Component {
           </thead>
           <tbody>
             {this.props.bills.map((bill, idx) => (
-              // TODO : fix key
               <BillRow
-                key={idx}
+                key={bill.id}
                 users={users}
                 bill={bill}
                 onBillChange={this.props.onBillChange}
