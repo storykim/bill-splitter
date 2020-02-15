@@ -8,14 +8,10 @@ import { Helmet } from "react-helmet"
 class App extends React.Component {
   constructor(props) {
     super(props)
-    // TODO : set to 1
-    this.nextId = 4
+    this.nextId = 1
     this.state = {
-      users: ["Donghwa", "Emile"],
+      users: [],
       bills: [
-        { id: 1, payer: "Donghwa", amount: "10", people: ["Donghwa", "Emile"] },
-        { id: 2, payer: "Emile", amount: "20", people: ["Donghwa"] },
-        { id: 3, payer: "", amount: "100", people: ["Donghwa", "Emile"] },
       ],
     }
 
