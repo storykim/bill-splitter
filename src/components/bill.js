@@ -8,6 +8,12 @@ class BillRow extends React.Component {
   constructor(props) {
     super(props)
     this.onInputChange = this.onInputChange.bind(this)
+    this.onBillDelete = this.onBillDelete.bind(this)
+  }
+
+  onBillDelete = e => {
+    e.preventDefault()
+    this.props.onBillDelete(this.props.bill.id)
   }
 
   onInputChange = e => {
@@ -27,6 +33,14 @@ class BillRow extends React.Component {
         // Convert value again to remove leading zero
         newBill.amount = String(amount)
       }
+    } else if (target.name === "checkall") {
+      const isCheckedAll =
+        this.props.bill.people.length === this.props.users.length
+      if (isCheckedAll) {
+        newBill.people = []
+      } else {
+        newBill.people = [...this.props.users]
+      }
     } else {
       const user = target.name.substring(6)
       if (target.checked) {
@@ -43,11 +57,11 @@ class BillRow extends React.Component {
   render() {
     const users = this.props.users
     const bill = this.props.bill
+    const isCheckedAll = bill.people.length === users.length
     return (
       <tr>
         <td className="col-payer">
           <select
-            style={{ width: "10ch" }}
             value={bill.payer}
             className="form-control"
             name="payer"
@@ -69,7 +83,7 @@ class BillRow extends React.Component {
           />
         </td>
         {users.map((user, idx) => (
-          <td key={user}>
+          <td key={user} className="text-center">
             <input
               type="checkbox"
               name={"check-" + user}
@@ -79,6 +93,21 @@ class BillRow extends React.Component {
             />
           </td>
         ))}
+        <td>
+          <button
+            className="btn btn-success btn-sm"
+            onClick={this.onInputChange}
+            name="checkall"
+            style={{ width: "11ch" }}
+          >
+            {isCheckedAll ? "Uncheck All" : "Check All"}
+          </button>
+        </td>
+        <td>
+          <button className="btn btn-danger btn-sm" onClick={this.onBillDelete}>
+            Delete
+          </button>
+        </td>
       </tr>
     )
   }
@@ -92,11 +121,13 @@ class BillTable extends React.Component {
         <table className="table">
           <thead>
             <tr>
-              <th>Payer</th>
-              <th>Amount</th>
+              <th style={{ width: "10ch" }}>Payer</th>
+              <th style={{ width: "10ch" }}>Amount</th>
               {users.map((user, idx) => (
-                <th key={user}>{user}</th>
+                <th key={user} className="text-center" style={{width:"8ch", maxWidth:"8ch", overflowX:"hidden"}}>{user}</th>
               ))}
+              <th style={{ width: "11ch" }}></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -106,6 +137,7 @@ class BillTable extends React.Component {
                 users={users}
                 bill={bill}
                 onBillChange={this.props.onBillChange}
+                onBillDelete={this.props.onBillDelete}
               ></BillRow>
             ))}
           </tbody>
@@ -126,6 +158,7 @@ class BillPanel extends React.Component {
               bills={this.props.bills}
               users={this.props.users}
               onBillChange={this.props.onBillChange}
+              onBillDelete={this.props.onBillDelete}
             ></BillTable>
           </div>
           <div className="row">

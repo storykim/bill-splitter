@@ -20,6 +20,7 @@ class App extends React.Component {
 
     this.onAddBill = this.onAddBill.bind(this)
     this.onBillChange = this.onBillChange.bind(this)
+    this.onBillDelete = this.onBillDelete.bind(this)
     this.onUserSubmit = this.onUserSubmit.bind(this)
     this.onUserDelete = this.onUserDelete.bind(this)
     this.calculateResult = this.calculateResult.bind(this)
@@ -30,7 +31,7 @@ class App extends React.Component {
     let newBill = {
       id: this.nextId,
       payer: "",
-      amount: '',
+      amount: "",
       people: [],
     }
     this.nextId += 1
@@ -51,6 +52,14 @@ class App extends React.Component {
           }
           return bill
         }),
+      }
+    })
+  }
+
+  onBillDelete(id) {
+    this.setState(prevState => {
+      return {
+        bills: prevState.bills.filter(el => el.id !== id),
       }
     })
   }
@@ -119,7 +128,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div style={{ maxWidth: "600px", margin: "3rem auto" }}>
+      <div style={{ maxWidth: "960px", margin: "3rem auto" }}>
         <IntroPanel />
         <UserPanel
           users={this.state.users}
@@ -131,6 +140,7 @@ class App extends React.Component {
           users={this.state.users}
           onAddBill={this.onAddBill}
           onBillChange={this.onBillChange}
+          onBillDelete={this.onBillDelete}
         />
         <br />
         <ResultPanel result={this.calculateResult()} />
