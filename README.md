@@ -26,7 +26,7 @@ $ gatsby build
 ```
 
 ## Is the number of transactions minimum?
-**No. There is no guarantee that it would be minimal.** This application uses a naïve algorithm to reduce the number of transactions, and it is guaranteed that it would be less than the number of people. However, to minimalize the number of transaction is actually [NP-hard](https://en.wikipedia.org/wiki/NP-hardness) problem. To be specific, one can convert the problem into an optimization problem with integer constraint, which is not solved in polynomial time.
+**No. There is no guarantee that it would be minimal.** This application uses a naïve algorithm to reduce the number of transactions, and it is guaranteed that it would be less than the number of people. However, minimizing the number of transaction is actually [NP-hard](https://en.wikipedia.org/wiki/NP-hardness) problem. To be specific, one can convert the problem into an optimization problem with integer constraint, which is not solved in polynomial time.
 
 ## Author
 Donghwa Kim([@storykim](https://github.com/storykim))
