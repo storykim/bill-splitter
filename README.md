@@ -1,7 +1,7 @@
 # Bill Splitter
 Simple bill splitter with JavaScript.
 
-Check demo [here](dutchpay.donghwa.kim).
+Check demo [here](https://dutchpay.donghwa.kim).
 ![screenshot](static/screenshot.png)
 
 ## Requirements
