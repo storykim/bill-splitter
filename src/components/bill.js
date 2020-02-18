@@ -30,8 +30,8 @@ class BillRow extends React.Component {
           return
         }
 
-        // Convert value again to remove leading zero
-        newBill.amount = String(amount)
+        // Remove leading zeros
+        newBill.amount = target.value.replace(/^0+/, '')
       }
     } else if (target.name === "checkall") {
       const isCheckedAll =
